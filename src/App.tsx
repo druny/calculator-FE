@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dashboard } from './scenes/Dashboard';
+import { Dashboard } from '@/scenes/Dashboard';
 
 import './App.scss';
 

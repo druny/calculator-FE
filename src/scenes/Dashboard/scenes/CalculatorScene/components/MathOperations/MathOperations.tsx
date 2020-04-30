@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import {
   Add as AddIcon,
   Remove as MinusIcon,
@@ -9,39 +9,45 @@ import {
 } from '@material-ui/icons';
 import { OperationButton } from '../OperationButton';
 
+import { PLUS, MINUS, MULTIPLY, DIVIDE, EQUAL } from '@/constants';
+
 type OperationType = {
   operationName: string;
   operationLogo: SvgIconComponent;
 };
 
+type MathOperationsProps = {
+  setActiveOperation: Dispatch<string>;
+};
+
 const operations: OperationType[] = [
   {
-    operationName: 'plus',
+    operationName: PLUS,
     operationLogo: AddIcon,
   },
   {
-    operationName: 'minus',
+    operationName: MINUS,
     operationLogo: MinusIcon,
   },
   {
-    operationName: 'multiply',
+    operationName: MULTIPLY,
     operationLogo: AcUnitSharpIcon,
   },
   {
-    operationName: 'divide',
+    operationName: DIVIDE,
     operationLogo: BlurOffSharpIcon,
   },
   {
-    operationName: 'equally',
+    operationName: EQUAL,
     operationLogo: DoneSharpIcon,
   },
 ];
 
-export function MathOperations() {
+export function MathOperations({ setActiveOperation }: MathOperationsProps) {
   return (
     <div>
       {operations.map((props) => (
-        <OperationButton {...props} key={props.operationName} />
+        <OperationButton {...props} key={props.operationName} onClick={setActiveOperation} />
       ))}
     </div>
   );

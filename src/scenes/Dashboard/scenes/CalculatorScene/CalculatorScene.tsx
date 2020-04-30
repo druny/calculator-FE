@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { ResultState } from './components/ResultState';
 import { MathOperations } from './components/MathOperations';
@@ -6,6 +6,8 @@ import { CalculatorOperations } from './components/CalculatorOperations';
 
 export function CalculatorScene() {
   const [activeOperation, setActiveOperation] = useState('plus');
+  const [activeNumber, setActiveNumber] = useState('leftNumber');
+
   const [calculatorResult, setCalculatorResult] = useState(0);
 
   const [leftNumber, setLeftNumber] = useState(0);
@@ -13,14 +15,9 @@ export function CalculatorScene() {
 
   return (
     <>
-      <MathOperations />
+      <ResultState result={calculatorResult} />
+      <MathOperations setActiveOperation={setActiveOperation} />
       <CalculatorOperations />
-      <ResultState
-        leftNumber={leftNumber}
-        rightNumber={rightNumber}
-        result={calculatorResult}
-        operation={activeOperation}
-      />
     </>
   );
 }

@@ -34,7 +34,7 @@ export function CalculatorOperations() {
         <NumberButton key={number} number={number} />
       ))}
       {operations.map((props) => (
-        <OperationButton {...props} key={props.operationName} />
+        <OperationButton {...props} key={props.operationName} onClick={(res) => console.log} />
       ))}
     </div>
   );
