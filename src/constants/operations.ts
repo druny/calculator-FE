@@ -8,6 +8,8 @@ export const MULTIPLY: string = 'multiply';
 export const DIVIDE: string = 'divide';
 
 export const EQUAL: string = 'equal';
+export const DOT: string = 'dot';
+export const CHANGE_OF_SIGN: string = 'changeOfSign';
 
 export const operations: OperationsType = {
   minus: '-',

@@ -1,7 +1,7 @@
 import React from 'react';
 
 type ResultStateProps = {
-  result: number;
+  result: string;
 };
 
 export function ResultState({ result }: ResultStateProps) {
