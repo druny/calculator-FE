@@ -1,15 +1,14 @@
 import React from 'react';
-import './App.css';
 
 import { Dashboard } from './scenes/Dashboard';
+
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          <Dashboard />
-        </p>
+        <Dashboard />
       </header>
     </div>
   );
