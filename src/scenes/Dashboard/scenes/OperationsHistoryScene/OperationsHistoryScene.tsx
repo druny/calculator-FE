@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from 'react';
 
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@material-ui/core/Table';
+import Paper from '@material-ui/core/Paper';
+
+import { TableBody } from './components/TableBody';
+import { TableHeader } from './components/TableHeader';
 
 import { getAllHistoryAdapter } from './services/apiAdapters';
 
+type HistoryType = {
+  leftNumber: string;
+  operation: string;
+  rightNumber: string;
+  _id: string;
+};
+
+const useStyles = makeStyles({
+  table: {
+    marginTop: 25,
+    maxHeight: '50vh',
+  },
+});
+
+const cells = ['LeftNumber', 'Operation', 'RightNumber'];
+
 export function OperationsHistoryScene() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [history, setHistory] = useState([]);
+  const [, setIsLoading] = useState(false);
+  const [history, setHistory] = useState<HistoryType[]>([]);
+
+  const classes = useStyles();
 
   useEffect(() => {
     async function getHistory() {
@@ -28,28 +47,19 @@ export function OperationsHistoryScene() {
       setIsLoading(false);
     }
 
+    setInterval(() => {
+      getHistory();
+    }, 5000);
+
     getHistory();
-  }, [getAllHistoryAdapter]);
+  }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>LeftNumber</TableCell>
-            <TableCell>Operation</TableCell>
-            <TableCell>RightNumber</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {history.map(({ leftNumber, operation, rightNumber }) => (
-            <TableRow>
-              <TableCell>{leftNumber}</TableCell>
-              <TableCell>{operation}</TableCell>
-              <TableCell>{rightNumber}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+    <TableContainer component={Paper} className={classes.table}>
+      <LinearProgress variant="determinate" value={100} color="secondary" />
+      <Table stickyHeader>
+        <TableHeader cells={cells} />
+        <TableBody history={history} />
       </Table>
     </TableContainer>
   );
