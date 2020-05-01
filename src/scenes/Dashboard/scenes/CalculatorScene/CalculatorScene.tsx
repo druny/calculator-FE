@@ -67,11 +67,10 @@ export function CalculatorScene() {
   };
 
   const onOperationUpdate = async (operation: string) => {
-    setLeftNumber(Number(calculatorResult));
-
     let mutatedOperation = activeOperation;
 
     if (!leftNumber || mutatedOperation !== operation) {
+      setLeftNumber(Number(calculatorResult));
       setActiveOperation(operation);
     }
 
@@ -100,8 +99,6 @@ export function CalculatorScene() {
     }
   };
 
-  console.log('left', leftNumber);
-  console.log('active', activeOperation);
   return (
     <>
       <ResultState result={calculatorResult} />
