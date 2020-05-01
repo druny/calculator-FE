@@ -1,20 +1,57 @@
 import React, { useState, useCallback, Dispatch } from 'react';
 
+import { PLUS, MINUS, MULTIPLY, DIVIDE, EQUAL, CLEAR, TYPING } from '@/constants';
+
 import { ResultState } from './components/ResultState';
 import { MathOperations } from './components/MathOperations';
+import { EffectsOperations } from './components/EffectsOperations';
 import { CalculatorOperations } from './components/CalculatorOperations';
 
-export function CalculatorScene() {
-  const [activeOperation, setActiveOperation] = useState('plus');
-  const [activeNumber, setActiveNumber] = useState('leftNumber');
+import {
+  plusAPIAdapter,
+  minusAPIAdapter,
+  divideAPIAdapter,
+  multiplyAPIAdapter,
+} from './services/apiAdapters';
 
+const operationRequests = {
+  [PLUS]: plusAPIAdapter,
+  [MINUS]: minusAPIAdapter,
+  [MULTIPLY]: multiplyAPIAdapter,
+  [DIVIDE]: divideAPIAdapter,
+};
+
+export function CalculatorScene() {
+  const [leftNumber, setLeftNumber] = useState(0);
+  const [activeOperation, setActiveOperation] = useState('');
   const [calculatorResult, setCalculatorResult] = useState('0');
 
-  const [leftNumber, setLeftNumber] = useState(0);
-  const [rightNumber, setRightNumber] = useState(0);
+  const resetValues = () => {
+    setLeftNumber(0);
+    setActiveOperation('');
 
-  const onTypeNumber = (number: number) => {
-    const concatNumbers = String(Number(calculatorResult + number));
+    setCalculatorResult('0');
+  };
+
+  const performRequest = async () => {
+    const { result }: any = await operationRequests[activeOperation](
+      leftNumber,
+      Number(calculatorResult)
+    );
+
+    setLeftNumber(result);
+
+    setCalculatorResult(result);
+  };
+
+  const onTypeNumber = async (number: number) => {
+    let activeNumber: string = calculatorResult;
+
+    if (leftNumber === Number(activeNumber)) {
+      activeNumber = '0';
+    }
+
+    const concatNumbers = String(Number(String(activeNumber) + number));
 
     setCalculatorResult(concatNumbers);
   };
@@ -23,17 +60,54 @@ export function CalculatorScene() {
     const result = String(callback(calculatorResult));
 
     if (!(Number(result) + 1)) {
-      setCalculatorResult(calculatorResult);
+      return setCalculatorResult(calculatorResult);
     }
 
     setCalculatorResult(result);
   };
 
+  const onOperationUpdate = async (operation: string) => {
+    setLeftNumber(Number(calculatorResult));
+
+    let mutatedOperation = activeOperation;
+
+    if (!leftNumber || mutatedOperation !== operation) {
+      setActiveOperation(operation);
+    }
+
+    if (mutatedOperation !== operation) {
+      mutatedOperation = '';
+    }
+
+    if (leftNumber && mutatedOperation) {
+      await performRequest();
+    }
+  };
+
+  const performEffect = async (effect: string) => {
+    if (effect === EQUAL && leftNumber) {
+      setActiveOperation('');
+
+      if (!activeOperation) return;
+
+      await performRequest();
+
+      return;
+    }
+
+    if (effect === CLEAR) {
+      return resetValues();
+    }
+  };
+
+  console.log('left', leftNumber);
+  console.log('active', activeOperation);
   return (
     <>
       <ResultState result={calculatorResult} />
-      <MathOperations setActiveOperation={setActiveOperation} />
+      <MathOperations setActiveOperation={onOperationUpdate} />
       <CalculatorOperations onTypeNumber={onTypeNumber} onEditNumber={onEditNumber} />
+      <EffectsOperations performEffect={performEffect} />
     </>
   );
 }

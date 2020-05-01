@@ -4,12 +4,12 @@ import {
   Remove as MinusIcon,
   AcUnitSharp as AcUnitSharpIcon,
   BlurOffSharp as BlurOffSharpIcon,
-  DoneSharp as DoneSharpIcon,
   SvgIconComponent,
 } from '@material-ui/icons';
-import { OperationButton } from '../OperationButton';
 
 import { PLUS, MINUS, MULTIPLY, DIVIDE, EQUAL } from '@/constants';
+
+import { OperationButton } from '../OperationButton';
 
 type OperationType = {
   operationName: string;
@@ -37,17 +37,17 @@ const operations: OperationType[] = [
     operationName: DIVIDE,
     operationLogo: BlurOffSharpIcon,
   },
-  {
-    operationName: EQUAL,
-    operationLogo: DoneSharpIcon,
-  },
 ];
 
 export function MathOperations({ setActiveOperation }: MathOperationsProps) {
   return (
     <div>
-      {operations.map((props) => (
-        <OperationButton {...props} key={props.operationName} onClick={setActiveOperation} />
+      {operations.map(({ operationName, operationLogo }) => (
+        <OperationButton
+          key={operationName}
+          operationLogo={operationLogo}
+          onClick={() => setActiveOperation(operationName)}
+        />
       ))}
     </div>
   );
