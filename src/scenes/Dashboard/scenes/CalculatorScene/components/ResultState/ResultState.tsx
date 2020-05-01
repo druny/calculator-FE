@@ -7,7 +7,7 @@ type ResultStateProps = {
 export function ResultState({ result }: ResultStateProps) {
   return (
     <div>
-      <p>{result}</p>
+      <p>{result || 'Hey?!!!'}</p>
     </div>
   );
 }

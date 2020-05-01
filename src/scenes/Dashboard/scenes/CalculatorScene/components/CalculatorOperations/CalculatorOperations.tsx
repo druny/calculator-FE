@@ -10,6 +10,8 @@ import { DOT, CHANGE_OF_SIGN } from '@/constants';
 import { NumberButton } from '../NumberButton';
 import { OperationButton } from '../OperationButton';
 
+import { changeOfSign, makeDecimal } from '../../services/operationsService';
+
 import './CalculatorOperations.scss';
 
 type OperationType = {
@@ -28,18 +30,12 @@ const operations: OperationType[] = [
   {
     operationName: DOT,
     operationLogo: FiberManualRecordSharpIcon,
-    onClick: (number: number): string => {
-      if (parseInt(String(number)) !== parseFloat(String(number))) {
-        return String(number);
-      }
-
-      return String(number + '.');
-    },
+    onClick: makeDecimal,
   },
   {
     operationName: CHANGE_OF_SIGN,
     operationLogo: ExposureIcon,
-    onClick: (number: number): number => -number,
+    onClick: changeOfSign,
   },
 ];
 

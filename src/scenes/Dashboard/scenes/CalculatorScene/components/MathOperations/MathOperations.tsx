@@ -7,7 +7,7 @@ import {
   SvgIconComponent,
 } from '@material-ui/icons';
 
-import { PLUS, MINUS, MULTIPLY, DIVIDE, EQUAL } from '@/constants';
+import { PLUS, MINUS, MULTIPLY, DIVIDE } from '@/constants';
 
 import { OperationButton } from '../OperationButton';
 
