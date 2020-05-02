@@ -1,37 +1,33 @@
-import { Dispatch } from 'react';
+import { Dispatch, useState } from 'react';
 
 import { CLEAR, EQUAL } from '@/constants';
 
 import { concatNumbers, mutateNumber, operationRequests } from '../services/operationsService';
 
-type CalculatorHookType = {
+export type CalculatorHookResponseType = {
   isLocked: boolean;
-  setIsLocked: Dispatch<any>;
   leftNumber: number;
-  setLeftNumber: Dispatch<any>;
   activeOperation: string;
+  calculatorResult: string;
+  resetValues: () => void;
+  setIsLocked: Dispatch<any>;
+  setLeftNumber: Dispatch<any>;
+  onOperationUpdate: Dispatch<any>;
   setActiveOperation: Dispatch<any>;
   setCalculatorResult: Dispatch<any>;
-  calculatorResult: string;
-};
-
-type CalculatorHookResponseType = {
-  onOperationUpdate: Dispatch<any>;
   performEffect: Dispatch<any>;
   onTypeNumber: Dispatch<any>;
-  onEditNumber: Dispatch<any>;
+  onEditNumber: Dispatch<() => any>;
 };
 
-export function calculatorHook({
-  isLocked,
-  setIsLocked,
-  leftNumber,
-  setLeftNumber,
-  activeOperation,
-  setActiveOperation,
-  setCalculatorResult,
-  calculatorResult,
-}: CalculatorHookType): CalculatorHookResponseType {
+export function CalculatorHook(): CalculatorHookResponseType {
+  const [isLocked, setIsLocked] = useState(false);
+
+  const [leftNumber, setLeftNumber] = useState(0);
+  const [activeOperation, setActiveOperation] = useState('');
+
+  const [calculatorResult, setCalculatorResult] = useState('0');
+
   const resetValues = () => {
     setIsLocked(false);
     setLeftNumber(0);
@@ -92,5 +88,19 @@ export function calculatorHook({
     }
   };
 
-  return { onOperationUpdate, performEffect, onTypeNumber, onEditNumber };
+  return {
+    isLocked,
+    leftNumber,
+    activeOperation,
+    calculatorResult,
+    setLeftNumber,
+    setIsLocked,
+    setActiveOperation,
+    setCalculatorResult,
+    resetValues,
+    onTypeNumber,
+    onEditNumber,
+    performEffect,
+    onOperationUpdate,
+  };
 }

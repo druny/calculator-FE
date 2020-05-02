@@ -9,7 +9,15 @@ import {
   plusAPIAdapter,
 } from './apiAdapters';
 
-type ConcatNumbersType = {
+export type OperationsServiceType = {
+  operationRequests: () => Dispatch<any>;
+  mutateNumber: Dispatch<any>;
+  concatNumbers: Dispatch<any>;
+  changeOfSign: Dispatch<any>;
+  makeDecimal: Dispatch<string>;
+};
+
+export type ConcatNumbersType = {
   leftNumber: number;
   calculatorResult: string;
   isLocked: boolean;
