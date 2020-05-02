@@ -7,7 +7,9 @@
     "build": "craco build",
     "test": "craco test",
     "updateSnapshots": "craco test -u",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pre-commit": "lint-staged",
+    "pre-push": "yarn test --lastCommit --watchAll false"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.12",
@@ -36,7 +38,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn pre-commit",
+      "pre-push": "yarn pre-push"
     }
   },
   "lint-staged": {
