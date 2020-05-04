@@ -4,8 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 .env file is temporary for testing purpose
 
 ## Available Scripts
+** Before running client, run server side
 
 In the project directory, you can run:
+
 
 ### `yarn start`
 
